@@ -19,7 +19,8 @@ module ActiveRecord
           end
 
           if (match = default_function&.match(/\Anextval\('"?(?<sequence_name>.+_(?<suffix>seq\d*))"?'::regclass\)\z/))
-            serial = sequence_name_from_parts(table_name, column_name, match[:suffix]) == match[:sequence_name]
+            name_without_schema = table_name.include?('.') ? table_name.split('.')[1] : table_name
+            serial = sequence_name_from_parts(name_without_schema, column_name, match[:suffix]) == match[:sequence_name]
           end
 
           # {:dimension=>2, :has_m=>false, :has_z=>false, :name=>"latlon", :srid=>0, :type=>"GEOMETRY"}
@@ -38,6 +39,11 @@ module ActiveRecord
             identity: identity.presence,
             spatial: spatial
           )
+        end
+
+        # override
+        def create_schema_dumper(options)
+          PostGIS::SchemaDumper.create(self, options)
         end
 
         # override

@@ -20,7 +20,8 @@ module ActiveRecord
 
           if (match = default_function&.match(/\Anextval\('"?(?<sequence_name>.+_(?<suffix>seq\d*))"?'::regclass\)\z/))
             name_without_schema = table_name.include?('.') ? table_name.split('.')[1] : table_name
-            serial = sequence_name_from_parts(name_without_schema, column_name, match[:suffix]) == match[:sequence_name]
+            sequence_without_schema = match[:sequence_name].include?('.') ? match[:sequence_name].split('.')[1] : match[:sequence_name]
+            serial = sequence_name_from_parts(name_without_schema, column_name, match[:suffix]) == sequence_without_schema
           end
 
           # {:dimension=>2, :has_m=>false, :has_z=>false, :name=>"latlon", :srid=>0, :type=>"GEOMETRY"}

@@ -21,15 +21,22 @@ module ActiveRecord
 
           not_ignored_tables = sorted_tables.reject { |table_name| ignored?(table_name.split('.')[1]) }
   
-          not_ignored_tables.each do |table_name|
+          not_ignored_tables.each_with_index do |table_name, index|
             table(table_name, stream)
+            stream.puts if index < not_ignored_tables.count - 1
           end
-  
+
           # dump foreign keys at the end to make sure all dependent tables exist.
-          if @connection.use_foreign_keys?
+          if @connection.supports_foreign_keys?
+            foreign_keys_stream = StringIO.new
             not_ignored_tables.each do |tbl|
-              foreign_keys(tbl, stream)
+              foreign_keys(tbl, foreign_keys_stream)
             end
+
+            foreign_keys_string = foreign_keys_stream.string
+            stream.puts if foreign_keys_string.length > 0
+
+            stream.print foreign_keys_string
           end
         end
       end

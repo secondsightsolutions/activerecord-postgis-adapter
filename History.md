@@ -1,4 +1,17 @@
-### 9.0.2 / 2024-04-39
+### 11.0.0 / 2025-02-06
+
+* ActiveRecord 8.0 support (teeparham) #421
+
+### 10.0.1 / 2024-11-15
+
+* Fix `Quoting` of RGeo objects (JamesChevalier) #417
+* Fix loading issue in multi-db environments (dorner) #418
+
+### 10.0.0 / 2024-11-04
+
+* ActiveRecord 7.2 support #405
+
+### 9.0.2 / 2024-04-30
 
 * Add `ConnectionHandling` module (copiousfreetime) #390
 

@@ -44,9 +44,7 @@ brew install postgis
 #### Ubuntu/Debian
 
 ```sh
-# The second package can be replaced depending on your postgresql version
-# ex. postgresql-11-postgis-2 is valid as well
-sudo apt-get install postgis postgresql-12-postgis-3
+sudo apt-get install postgis postgresql-16-postgis-3
 ```
 
 #### Windows
@@ -59,15 +57,21 @@ Gemfile:
 gem 'activerecord-postgis-adapter'
 ```
 
-Gemfile for JRuby\*:
+#### Version 11.x supports ActiveRecord 8.0
 
-```ruby
-gem 'activerecord-postgis-adapter'
-gem 'activerecord-jdbcpostgresql-adapter'
-gem 'ffi-geos'
+```
+ActiveRecord 7.2
+Ruby 3.2.0+
+PostGIS 2.0+
 ```
 
-_JRuby support for Rails 4.0 and 4.1 was added in version 2.2.0_
+#### Version 10.x supports ActiveRecord 7.2
+
+```
+ActiveRecord 7.2
+Ruby 3.1.0+
+PostGIS 2.0+
+```
 
 #### Version 9.x supports ActiveRecord 7.1
 
@@ -257,7 +261,7 @@ rails generate migration AddPostgisExtensionToDatabase
 
 The migration should look something like this:
 ```ruby
-class AddPostgisExtensionToDatabase < ActiveRecord::Migration[7.0]
+class AddPostgisExtensionToDatabase < ActiveRecord::Migration[7.2]
   def change
     enable_extension 'postgis'
   end
@@ -573,7 +577,7 @@ view into the system catalogs.
 
 ## Development and Support
 
-RDoc Documentation is available at https://rdoc.info/gems/activerecord-postgis-adapter
+RubyDoc Documentation is available at https://rubydoc.info/gems/activerecord-postgis-adapter
 
 Contributions are welcome. See CONTRIBUTING.md for instructions.
 
